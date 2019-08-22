@@ -1,7 +1,7 @@
 #!/bin/bash
 remote=$1
 mov() {
-	scp -r $1 $remote:$1
+	scp -r $1 $remote:$1/..
 }
 ssh-copy-id $1
 
@@ -16,4 +16,4 @@ mov ~/.xinitrc
 mov ~/src/scripts/screenshot
 mov ~/src/profile
 
-ssh $remote ~/src/profile/remote-setup
+#ssh $remote ~/src/profile/remote-setup

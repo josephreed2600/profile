@@ -12,7 +12,7 @@ case $(uname -a) in
 		makepkg -si --noconfirm;
 		popd;
 		popd; fi
-		yay -S --sudoloop --noconfirm --mflags --skipinteg fish kitty netcat hub dmenu curl windows10-icon-theme-git i3-wm i3blocks i3status i3lock;;
+		yay -S --sudoloop --noconfirm --mflags --skipinteg fish kitty netcat hub dmenu curl windows10-icon-theme-git i3-wm i3blocks i3status i3lock xorg-xinit google-chrome;;
 esac
 
 chsh -s /usr/bin/fish $(whoami)
