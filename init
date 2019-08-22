@@ -7,6 +7,7 @@ ssh-copy-id $1
 
 ssh $remote mkdir -p ~/.config
 ssh $remote mkdir -p ~/src/scripts
+ssh $remote mkdir -p ~/tmp
 
 mov ~/.profile
 mov ~/.config/fish

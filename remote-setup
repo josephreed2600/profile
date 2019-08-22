@@ -21,11 +21,15 @@ git config --global user.name 'Joseph Reed'
 git config --global user.email 'josephreed2600@gmail.com'
 
 mkdir tmp
-curl -s https://install.zerotier.com -o tmp/zerotier.sh && sudo bash tmp/zerotier.sh
+curl -s https://install.zerotier.com -o ~/tmp/zerotier.sh && sudo bash ~/tmp/zerotier.sh
 sudo cp /var/lib/zerotier-one/authtoken.secret ~/.zeroTierOneAuthToken
 sudo chown $(whoami) ~/.zeroTierOneAuthToken
 sudo chmod 0600 ~/.zeroTierOneAuthToken
 zerotier-cli join b6079f73c694c739
 echo 'Allow this host at https://my.zerotier.com/network/b6079f73c694c739'
+read -c 'Press return to continue...' > /dev/null
 
-fish -c 'for i in 10.0.10.{2,3,4,5,6,7,11 -p 52,12,21}; ssh-copy-id $i; ssh $i uname -a; end'
+if [ ! -e ~/src/profile/hosts.bak ]; then cp /etc/hosts ~/src/profile/hosts.bak; fi
+cat ~/src/profile/hosts.bak | sudo tee    /etc/hosts
+cat ~/src/profile/hosts     | sudo tee -a /etc/hosts
+fish -c 'for i in 10.0.10.{2,3,4,5,6,7,10,11 -p 52,21,40,41}; ssh-copy-id $i; ssh $i uname -a; end'
