@@ -1,0 +1,8 @@
+#!/bin/bash
+curl -s https://install.zerotier.com -o ~/tmp/zerotier.sh && sudo bash ~/tmp/zerotier.sh
+sudo cp /var/lib/zerotier-one/authtoken.secret ~/.zeroTierOneAuthToken
+sudo chown $(whoami) ~/.zeroTierOneAuthToken
+sudo chmod 0600 ~/.zeroTierOneAuthToken
+zerotier-cli join b6079f73c694c739
+echo 'Allow this host at https://my.zerotier.com/network/b6079f73c694c739'
+read -c 'Press return to continue...' > /dev/null

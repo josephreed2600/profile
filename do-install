@@ -1,0 +1,15 @@
+#!/bin/bash
+echo Installing: git fish kitty netcat hub dmenu curl i3-wm i3blocks i3status i3lock xorg-xinit google-chrome [windows10-icon-theme-git]
+case Linux reed-arch-gway-1 5.2.9-arch1-1-ARCH #1 SMP PREEMPT Fri Aug 16 11:29:43 UTC 2019 x86_64 GNU/Linux in
+        *ebian*);&
+        *buntu*) sudo apt install git fish kitty netcat hub dmenu curl;;
+        *rch*) sudo pacman -S --noconfirm git;
+                if ! /usr/bin/yay; then
+                pushd ~/src;
+                git clone https://aur.archlinux.org/yay.git;
+                pushd yay;
+                makepkg -si --noconfirm;
+                popd;
+                popd; fi
+                yay -S --sudoloop --noconfirm --mflags --skipinteg fish kitty netcat hub dmenu curl windows10-icon-theme-git i3-wm i3blocks i3status i3lock xorg-xinit google-chrome;;
+esac

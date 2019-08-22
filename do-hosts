@@ -1,0 +1,4 @@
+#!/bin/bash
+if [ ! -e ~/src/profile/hosts.bak ]; then cp /etc/hosts ~/src/profile/hosts.bak; fi
+cat ~/src/profile/hosts.bak | sudo tee    /etc/hosts
+cat ~/src/profile/hosts     | sudo tee -a /etc/hosts

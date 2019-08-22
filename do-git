@@ -1,0 +1,3 @@
+#!/bin/bash
+git config --global user.name 'Joseph Reed'
+git config --global user.email 'josephreed2600@gmail.com'
