@@ -1,0 +1,31 @@
+#!/bin/bash
+ssh-keygen
+echo git fish kitty netcat hub dmenu curl
+case $(uname -a) in
+	*ebian*);&
+	*buntu*) sudo apt install git fish kitty netcat hub dmenu curl;;
+	*rch*) sudo pacman -S --noconfirm git;
+		if ! $(which yay); then
+		pushd ~/src;
+		git clone https://aur.archlinux.org/yay.git;
+		pushd yay;
+		makepkg -si --noconfirm;
+		popd;
+		popd; fi
+		yay -S --sudoloop --noconfirm --mflags --skipinteg fish kitty netcat hub dmenu curl windows10-icon-theme-git;;
+esac
+
+chsh -s /usr/bin/fish $(whoami)
+
+git config --global user.name 'Joseph Reed'
+git config --global user.email 'josephreed2600@gmail.com'
+
+mkdir tmp
+curl -s https://install.zerotier.com -o tmp/zerotier.sh && sudo bash tmp/zerotier.sh
+sudo cp /var/lib/zerotier-one/authtoken.secret ~/.zeroTierOneAuthToken
+sudo chown $(whoami) ~/.zeroTierOneAuthToken
+sudo chmod 0600 ~/.zeroTierOneAuthToken
+zerotier-cli join b6079f73c694c739
+echo 'Allow this host at https://my.zerotier.com/network/b6079f73c694c739'
+
+fish -c 'for i in 10.0.10.{2,3,4,5,6,7,11 -p 52,12,21}; ssh-copy-id $i; ssh $i uname -a; end'
