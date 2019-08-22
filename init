@@ -1,21 +1,3 @@
 #!/bin/bash
-remote=$1
-mov() {
-	scp -r $1 $remote:$1/..
-}
-ssh-copy-id $1
-
-ssh $remote mkdir -p ~/.config
-ssh $remote mkdir -p ~/src/scripts
-ssh $remote mkdir -p ~/tmp
-
-mov ~/.profile
-mov ~/.config/fish
-mov ~/.config/i3
-mov ~/.xinitrc
-mov ~/src/scripts/screenshot
-mov ~/src/profile
-#mov  /etc/i3status.conf
-scp /etc/i3status.conf $remote:~/tmp
-
+./do-copy
 ssh $remote ~/src/profile/remote-setup
