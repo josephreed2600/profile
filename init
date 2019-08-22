@@ -12,9 +12,10 @@ ssh $remote mkdir -p ~/tmp
 mov ~/.profile
 mov ~/.config/fish
 mov ~/.config/i3
-#mov  /etc/i3status.conf
 mov ~/.xinitrc
 mov ~/src/scripts/screenshot
 mov ~/src/profile
+#mov  /etc/i3status.conf
+scp /etc/i3status.conf $remote:~/tmp
 
 #ssh $remote ~/src/profile/remote-setup
