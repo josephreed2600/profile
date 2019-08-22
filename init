@@ -18,4 +18,4 @@ mov ~/src/profile
 #mov  /etc/i3status.conf
 scp /etc/i3status.conf $remote:~/tmp
 
-#ssh $remote ~/src/profile/remote-setup
+ssh $remote ~/src/profile/remote-setup
