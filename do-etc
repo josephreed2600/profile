@@ -1,6 +1,0 @@
-#!/bin/bash
-if [ -e ~/tmp/i3status.conf ]; then
-sudo cp ~/tmp/i3status.conf /etc/i3status.conf;
-else
->&2 echo i3status.conf missing uwu
-fi

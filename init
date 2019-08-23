@@ -1,3 +1,9 @@
 #!/bin/bash
 ./do-copy
-ssh $remote ~/src/profile/remote-setup
+./do-keygen
+./do-install
+./do-shell
+./do-git
+./do-zt
+./do-hosts
+./do-copy-id

@@ -1,8 +1,0 @@
-#!/bin/bash
-./do-keygen
-./do-install
-./do-shell
-./do-git
-./do-zt
-./do-hosts
-./do-copy-id
