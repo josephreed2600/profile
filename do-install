@@ -1,8 +1,8 @@
 #!/bin/bash
-echo Installing: git fish kitty netcat hub dmenu curl i3-wm i3blocks i3status i3lock xorg-xinit google-chrome [windows10-icon-theme-git]
-case Linux reed-arch-gway-1 5.2.9-arch1-1-ARCH #1 SMP PREEMPT Fri Aug 16 11:29:43 UTC 2019 x86_64 GNU/Linux in
+echo Installing: git fish kitty netcat hub dmenu curl i3-wm i3blocks i3status i3lock xorg-xinit google-chrome net-tools xorg-xset xf86-drivers tmux
+case $(uname -a) in
         *ebian*);&
-        *buntu*) sudo apt install git fish kitty netcat hub dmenu curl;;
+        *buntu*) sudo apt install git fish kitty netcat hub dmenu curl net-tools xorg-xse xf86-drivers tmux;;
         *rch*) sudo pacman -S --noconfirm git;
                 if ! /usr/bin/yay; then
                 pushd ~/src;
@@ -11,5 +11,5 @@ case Linux reed-arch-gway-1 5.2.9-arch1-1-ARCH #1 SMP PREEMPT Fri Aug 16 11:29:4
                 makepkg -si --noconfirm;
                 popd;
                 popd; fi
-                yay -S --sudoloop --noconfirm --mflags --skipinteg fish kitty netcat hub dmenu curl windows10-icon-theme-git i3-wm i3blocks i3status i3lock xorg-xinit google-chrome;;
+                yay -S --sudoloop --noconfirm --mflags --skipinteg fish kitty netcat hub dmenu curl windows10-icon-theme-git i3-wm i3blocks i3status i3lock xorg-xinit google-chrome net-tools tmux;;
 esac
