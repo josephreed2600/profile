@@ -1,12 +1,15 @@
 #!/bin/bash
 mov() {
+	cp -r $1 /$1
+}
+smov() {
 	sudo cp -r $1 /$1
 }
 
-mkdir -p ~/.ssh
-mkdir -p ~/.config
-mkdir -p ~/src/scripts
-mkdir -p ~/tmp
+if [ ! -e ~/.ssh ]; then mkdir -p ~/.ssh; fi
+if [ ! -e ~/.config ]; then mkdir -p ~/.config; fi
+if [ ! -e ~/src/scripts ]; then mkdir -p ~/src/scripts; fi
+if [ ! -e ~/tmp ]; then mkdir -p ~/tmp; fi
 
 mov home/jtreed/.ssh/config
 mov home/jtreed/.profile
@@ -14,5 +17,4 @@ mov home/jtreed/.config/fish
 mov home/jtreed/.config/i3
 mov home/jtreed/.xinitrc
 mov home/jtreed/src/scripts/screenshot
-mov home/jtreed/src/profile
-mov etc/i3status.conf
+smov etc/i3status.conf

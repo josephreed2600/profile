@@ -4,7 +4,7 @@ case $(uname -a) in
         *ebian*);&
         *buntu*) sudo apt install git fish kitty netcat hub dmenu curl net-tools xorg-xse xf86-drivers tmux;;
         *rch*) sudo pacman -S --noconfirm git;
-                if ! /usr/bin/yay; then
+                if [ ! -e /usr/bin/yay ]; then
                 pushd ~/src;
                 git clone https://aur.archlinux.org/yay.git;
                 pushd yay;

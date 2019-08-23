@@ -1,0 +1,3 @@
+#!/bin/bash
+scp fetch $1:/tmp
+ssh $1 /tmp/fetch

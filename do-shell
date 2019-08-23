@@ -1,2 +1,2 @@
 #!/bin/bash
-chsh -s /usr/bin/fish $(whoami)
+if [ "/usr/bin/fish" != $(getent passwd $(whoami) | cut -d: -f7) ]; then chsh -s /usr/bin/fish $(whoami); fi
