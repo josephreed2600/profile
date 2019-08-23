@@ -1,21 +1,18 @@
 #!/bin/bash
-remote=$1
 mov() {
-	scp -r $1 $remote:$1/..
+	sudo cp $1 /$1
 }
-ssh-copy-id $1
 
-ssh $remote mkdir -p ~/.ssh
-ssh $remote mkdir -p ~/.config
-ssh $remote mkdir -p ~/src/scripts
-ssh $remote mkdir -p ~/tmp
+mkdir -p ~/.ssh
+mkdir -p ~/.config
+mkdir -p ~/src/scripts
+mkdir -p ~/tmp
 
-mov ~/.ssh/config
-mov ~/.profile
-mov ~/.config/fish
-mov ~/.config/i3
-mov ~/.xinitrc
-mov ~/src/scripts/screenshot
-mov ~/src/profile
-#mov  /etc/i3status.conf
-scp /etc/i3status.conf $remote:~/tmp
+mov home/jtreed/.ssh/config
+mov home/jtreed/.profile
+mov home/jtreed/.config/fish
+mov home/jtreed/.config/i3
+mov home/jtreed/.xinitrc
+mov home/jtreed/src/scripts/screenshot
+mov home/jtreed/src/profile
+mov etc/i3status.conf
