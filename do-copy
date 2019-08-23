@@ -1,6 +1,6 @@
 #!/bin/bash
 mov() {
-	sudo cp $1 /$1
+	sudo cp -r $1 /$1
 }
 
 mkdir -p ~/.ssh

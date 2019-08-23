@@ -1,2 +1,2 @@
 #!/bin/bash
-ssh-keygen
+if [ ! -e ~/.ssh/id_rsa ]; then ssh-keygen; fi
