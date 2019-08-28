@@ -31,3 +31,5 @@ set -x OPENSCADPATH ~/cad/lib
 set -x MAKEFLAGS -j(nproc)
 setfont
 mesg y
+
+source ~/.профиль

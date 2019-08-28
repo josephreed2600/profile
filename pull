@@ -1,0 +1,4 @@
+#!/bin/bash
+localdir=$(dirname $1 | sed -r 's/^\/(.*)$/\1/')
+mkdir -p $localdir
+cp $1 $localdir/$(basename $1)

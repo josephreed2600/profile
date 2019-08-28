@@ -313,3 +313,4 @@ bindcode $mod+Shift+$x exec maim -suo /tmp/img.png
 bindcode $mod+$alt+$x exec gif
 bindcode $mod+$alt+Shift+$x exec pkill ffmpeg
 bindcode $alt+$Tab workspace back_and_forth
+bindcode $win+$Tab workspace back_and_forth
