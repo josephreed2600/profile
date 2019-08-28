@@ -1,4 +1,21 @@
-#!/bin/bash
-localdir=$(dirname $1 | sed -r 's/^\/(.*)$/\1/')
+#!/bin/fish
+if [ -z "$argv[1]" ]
+
+for i in (find ./fs -type f -exec echo {} \; | sed 's/\.\/fs//g');
+echo ./pull $i
+./pull $i
+end
+else
+
+set localpath fs$argv[1]
+#echo path $localpath
+set localdir (dirname $localpath)
+#echo dir  $localdir
+
+if [ ! -f $localdir ]
 mkdir -p $localdir
-cp $1 $localdir/$(basename $1)
+end
+
+#echo cp $argv[1] $localpath
+cp $argv[1] $localpath
+end
