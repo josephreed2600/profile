@@ -1,2 +1,5 @@
 #!/bin/bash
+git pull origin master
 ./do-hosts
+./do-copy-id
+./do-copy
