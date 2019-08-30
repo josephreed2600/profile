@@ -1,5 +1,4 @@
 #!/bin/fish
-# TODO Rewrite this to recurse through ./fs/
 
 for i in (find fs -type f | sed -r 's/^fs//');
 echo $i
