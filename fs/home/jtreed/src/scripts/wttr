@@ -1,0 +1,6 @@
+#!/usr/bin/fish
+set DEFAULT_LOCATION Madera_CA
+
+set -q argv[1]; or set argv[1] $DEFAULT_LOCATION
+set weather (curl -s wttr.in/$argv[1] | head -n 7 | sed 's/^/#/g' | tee /dev/stderr)
+notify-send (echo $weather | tr '#' '\n' | head -n 2 | tail -n 1) (echo $weather | cut -d'#' -f3- | sed -r 's/\x1b\[[0-9;]*m//g;s/\\\\/\\\\\\\\/g;s/\s{2,}([A-Za-z0-9°←↑→↓])/\t\1/g;s/([A-Za-z0-9°←↑→↓]) ([A-Za-z0-9°←↑→↓])/\1%\2/g;s/([(/\\])(\s*)/\1\2\2\2/g;s/"(\s*\.-\.)/"   \1/g;s/#(\s*\.--\.)/#    \1/g;s|/\(|/ \(|g;s/#(\s*[‚’‘])/# \1/g;s/([‚’‘])/ \1/g;s/#(\s*,)/# \1/g;s/#(\s*\*)/#  \1/g;s/([A-Za-z0-9°←↑→↓])%([A-Za-z0-9°←↑→↓])/\1 \2/g;s/#  /#/g;s/#/\\\\n/g;')

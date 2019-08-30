@@ -1,0 +1,42 @@
+#!/bin/fish
+xcompmgr &
+set image_path "/home/jtreed/Pictures/russian-color.png"
+ffprobe $image_path 2>| grep -e ' [0-9]\+x[0-9]\+,\? ' | sed -r 's/^.* ([0-9]+)x([0-9]+),? .*$/\1x\2/'
+set dims (ffprobe $image_path 2>| grep -e ' [0-9]\+x[0-9]\+,\? ' | sed -r 's/^.* ([0-9]+)x([0-9]+),? .*$/\1x\2/')
+set i_width (echo $dims | cut -dx -f1)
+set i_height (echo $dims | cut -dx -f2)
+set m_width 1366
+set m_height 768
+echo image path $image_path
+echo dims $dims
+echo i width $i_width
+echo i height $i_height
+echo m width $m_width
+echo m height $m_height
+echo "$m_width 2/$i_width 2/-f"
+echo "$m_height $i_height-f"
+set xcor (dc -e"$m_width 2/$i_width 2/-f")
+set ycor (dc -e"$m_height $i_height-f")
+echo $xcor
+echo $ycor
+
+set transparency 0.3
+
+feh $image_path &
+sleep 0.1
+wmctrl -l
+set window_id (wmctrl -l | grep -ie 'feh' | cut -d' ' -f1)
+echo window id $window_id
+
+transset-df -i $window_id $transparency
+i3-msg "[id=$window_id] border none"
+i3-msg "[id=$window_id] floating enable"
+i3-msg "[id=$window_id] sticky enable"
+i3-msg "[id=$window_id] resize set width $i_width px height $i_height px"
+i3-msg "[id=$window_id] move position $xcor px $ycor px"
+
+#i3-msg "[id=$window_id] resize shrink width 10000px"
+#i3-msg "[id=$window_id] resize grow width 400px"
+#i3-msg "[id=$window_id] resize shrink height 10000px"
+#i3-msg "[id=$window_id] resize grow height 250px"
+#i3-msg "[id=$window_id] move position 10px 10px"

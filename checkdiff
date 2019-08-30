@@ -1,4 +1,5 @@
 #!/bin/fish
 for i in (find ./fs -type f -exec echo "/{}" \; | sed 's/\.\/fs\///g');
+#echo $i
 ./diff $i
 end

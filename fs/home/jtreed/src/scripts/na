@@ -1,0 +1,6 @@
+#!/bin/fish
+read --shell target
+ru
+read --shell source
+гы
+echo псевдоним $source=$target | tee -a ~/.профиль

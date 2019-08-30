@@ -1,0 +1,12 @@
+#!/bin/bash
+if [ -z "$@" ] 2>/dev/null
+then
+	str=$(xclip -o)
+else
+	str=$@
+fi
+tr="$(node ~/src/quicktranslate ru-RU en-US ${str})"
+detr="$(node ~/src/quicktranslate en-US ru-RU ${tr})"
+notify-send "$tr" "$detr"
+echo "$tr"
+>&2 echo "$detr"

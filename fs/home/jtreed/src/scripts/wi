@@ -1,0 +1,7 @@
+#!/bin/bash
+case $1 in
+	"")	airodump-ng wlan0 --berlin 1 --ignore-negative-one;;
+	*)	profile=$(ls /etc/netctl | fzf -f "$1" | head -n1)
+		echo-notify "Switching to $profile"
+		sudo netctl switch-to $profile
+esac

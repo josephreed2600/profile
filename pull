@@ -17,5 +17,9 @@ mkdir -p $localdir
 end
 
 #echo cp $argv[1] $localpath
+if test -d $argv[1];
+cp -r $argv[1]/* $localpath
+else
 cp $argv[1] $localpath
+end
 end

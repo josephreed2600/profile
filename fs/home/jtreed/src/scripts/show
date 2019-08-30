@@ -1,0 +1,2 @@
+#!/bin/fish
+cat (which $argv[1])

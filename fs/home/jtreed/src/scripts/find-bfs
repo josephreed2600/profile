@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# https://unix.stackexchange.com/a/436606/183384
+
+#while IFS= read -r line; do
+#  dirn=${line%/*}         ## dirname(line)
+#  echo ${#dirn},$line     ## len(dirn),line
+#done | sort -n | cut -d ',' -f 2-
+
+# https://unix.stackexchange.com/a/375375/183384
+
+i=0
+while results=$(find "$@" -mindepth $i -maxdepth $i) && [[ -n $results ]]; do
+  echo "$results"
+  ((i++))
+done

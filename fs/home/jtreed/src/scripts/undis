@@ -1,0 +1,4 @@
+#!/bin/bash
+pkill Discord
+sleep 2
+pkill Discord

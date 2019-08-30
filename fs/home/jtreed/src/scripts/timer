@@ -1,0 +1,5 @@
+#!/bin/bash
+time=$(dc -e "60 0${1}*0${2}+f")
+echo Returning in $time s
+sleep $time
+echo-notify "Ding ding, cowboy" "$3 ($time s)"

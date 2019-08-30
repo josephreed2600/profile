@@ -1,0 +1,6 @@
+#!/bin/sh
+setxkbmap ru
+[[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+if [ ! -z "$1" ]; then
+ru-overlay
+fi

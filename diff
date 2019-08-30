@@ -1,6 +1,6 @@
 #!/bin/bash
 localdir=$(dirname $1 | sed -r 's/^\/(.*)$/\1/')
-localpath=$localdir/$(basename $1)
+localpath=fs/$localdir/$(basename $1)
 if [ -e "$localpath" ]; then
 echo $1
 diff $1 $localpath

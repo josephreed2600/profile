@@ -1,7 +1,9 @@
+alias en='env LANG=en_US.UTF-8'
 alias ls='ls --color=auto'
-alias git=hub
+alias git='en hub'
 alias git-log='git log --graph --decorate --pretty=oneline --abbrev-commit master'
 alias git-undo-unstaged='git checkout --'
+alias make='en make'
 alias lock='i3lock -c 000000'
 alias remake='make clean && bear make'
 alias tbin='nc termbin.com 9999'

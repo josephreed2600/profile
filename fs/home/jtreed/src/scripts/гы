@@ -1,0 +1,10 @@
+#!/bin/bash
+setxkbmap us
+[[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+if pgrep 'feh'; then
+wmctrl -ic $(wmctrl -l | grep -e 'feh.*russian' | cut -d' ' -f1)
+fi
+if pgrep xcompmgr; then
+sleep 0.1
+pkill xcompmgr
+fi
