@@ -1,9 +1,14 @@
 #!/bin/bash
 set -o pipefail
+
+function copy-ids() {
+	echo '>>> ' Copying to $1
+	if(ssh-copy-id $1 2>/dev/null); then
+	echo '<<< ' Copying from $1
+	ssh $1 'ssh-copy-id (echo $SSH_CONNECTION | cut -d" " -f1)' 2>/dev/null &
+	fi
+}
+
 for i in $(cat hosts | cut -f1 | grep -ve '^#' -e '^$'); do
-echo '>>> ' Copying to $i
-if ssh-copy-id $i 2>&1 | grep -Eie 'ERR|WARN'; then
-echo '<<< ' Copying from $i
-ssh $i 'ssh-copy-id (echo $SSH_CONNECTION | cut -d" " -f1)' 2>&1 | grep -Eie 'ERR|WARN'
-fi
+copy-ids $i &
 done
