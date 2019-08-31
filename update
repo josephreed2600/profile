@@ -1,4 +1,5 @@
 #!/bin/bash
+# TODO Determine which items to skip, and then skip them
 git pull origin master
 ./do-hosts
 ./do-copy-id
