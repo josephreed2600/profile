@@ -1,0 +1,2 @@
+fs/home/jtreed/Pictures/bg/mtn.jpg filter=lfs diff=lfs merge=lfs -text
+fs/home/jtreed/Pictures/ filter=lfs diff=lfs merge=lfs -text

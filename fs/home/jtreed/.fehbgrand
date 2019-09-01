@@ -1,0 +1,2 @@
+#!/bin/sh
+feh --bg-fill "$(find ~/Pictures/bg -type f | shuf | head -n1)"
