@@ -9,6 +9,7 @@ lxpolkit &
 dunst &
 discord &
 setxkbmap -option caps:escape
+xmodmap ~/.Xmodmap
 case $session in 
 	i3|i3wm		) exec i3;;
 	kde		) exec startkde;;
