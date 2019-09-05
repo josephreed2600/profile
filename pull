@@ -1,8 +1,8 @@
 #!/bin/fish
 if [ -z "$argv[1]" ]
 
-for i in (find ./fs -type f -exec echo {} \; | sed 's/\.\/fs//g');
-echo ./pull $i
+for i in (./checkdiff 2>/dev/null);
+echo $i
 ./pull $i
 end
 else
