@@ -3,5 +3,6 @@ mkdir ~/src
 pushd ~/src
 git clone https://github.com/josephreed2600/profile.git
 cd profile
+git lfs pull
 ./init
 popd
