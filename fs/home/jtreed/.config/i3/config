@@ -325,3 +325,7 @@ default_border pixel 0
 # marks
 bindcode $mod+$m exec i3-input -F 'mark %s' -l 1 -P 'Mark: '
 bindcode $mod+$apostrophe exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
+
+# the mouse was a mistake :tm:
+#focus_follows_mouse no
+# but it's my mistake now
