@@ -17,6 +17,10 @@ function copy-ids() {
 	fi
 }
 
+if [ -z "$1" ]; then
 for i in $(cat hosts | cut -f1 | grep -ve '^#' -e '^$'); do
-copy-ids $i
+$0 $i
 done
+else
+copy-ids $1
+fi
