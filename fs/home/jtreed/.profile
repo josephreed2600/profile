@@ -31,7 +31,6 @@ set -x PATH ~/src/scripts $PATH
 set -x EDITOR vi
 set -x OPENSCADPATH ~/cad/lib
 set -x MAKEFLAGS -j(nproc)
-setfont
 mesg y
 
 source ~/.профиль
