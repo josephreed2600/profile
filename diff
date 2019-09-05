@@ -1,10 +1,9 @@
 #!/bin/bash
 localdir=$(dirname $1 | sed -r 's/^\/(.*)$/\1/')
 localpath=fs/$localdir/$(basename $1)
-if [ -e "$localpath" ]; then
-diff=$(diff $1 $localpath)
-if [ ! -z "$diff" ]; then
+if [ -e "$localpath" ] && [ -e "$1" ]; then
+if ! diff $1 $localpath; then
 echo $1
-echo $diff
+exit 1
 fi
 fi
