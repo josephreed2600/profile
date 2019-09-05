@@ -1,6 +1,13 @@
 #!/bin/fish
 
 for i in (find fs -type f | sed -r 's/^fs//');
-echo $i
+set dname (dirname $i)
+if [ ! -e $i ] || ! diff $i fs$i;
+echo Copying $i
+if [ ! -d "$dname" ];
+echo Creating $dname
+mkdir -p "$dname"
+end
 cp fs$i $i
+end
 end
