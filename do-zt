@@ -1,5 +1,7 @@
 #!/bin/bash
 curl -s https://install.zerotier.com -o ~/tmp/zerotier.sh && sudo bash ~/tmp/zerotier.sh
+sudo systemctl start zerotier-one
+sudo systemctl enable zerotier-one
 sudo cp /var/lib/zerotier-one/authtoken.secret ~/.zeroTierOneAuthToken
 sudo chown $(whoami) ~/.zeroTierOneAuthToken
 sudo chmod 0600 ~/.zeroTierOneAuthToken
