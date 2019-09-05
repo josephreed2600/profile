@@ -2,13 +2,19 @@
 set -o pipefail
 
 function copy-ids() {
+	echo '---' Pinging $1
+	if(ping -c 4 $1 >/dev/null); then
 	echo '>>> ' Copying to $1
 	if(ssh-copy-id $1 2>/dev/null); then
+	echo '/// ' Copied to $1
 	echo '<<< ' Copying from $1
-	ssh $1 'ssh-copy-id (echo $SSH_CONNECTION | cut -d" " -f1)' 2>/dev/null &
+	ssh $1 'ssh-copy-id (echo $SSH_CONNECTION | cut -d" " -f1)' 2>/dev/null
+	fi
+	else
+	echo '###' Failed to ping $1
 	fi
 }
 
 for i in $(cat hosts | cut -f1 | grep -ve '^#' -e '^$'); do
-copy-ids $i &
+copy-ids $i
 done
