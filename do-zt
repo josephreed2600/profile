@@ -1,5 +1,27 @@
 #!/bin/bash
+if [ ! -d ~/tmp ]; then mkdir -p ~/tmp; fi
 curl -s https://install.zerotier.com -o ~/tmp/zerotier.sh && sudo bash ~/tmp/zerotier.sh
+dst=/etc/systemd/system/zerotier-one.service
+if [ -f "$dst" ]; then
+cat << EOF | sudo tee $dst
+[Unit]
+Description=ZeroTier One
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/zerotier-one
+Restart=always
+KillMode=process
+KillSignal=SIGKILL
+
+[Install]
+WantedBy=multi-user.target
+EOF
+else
+>&2 echo 'Unable to update service file. You may need to convince zerotier-one to die on command.'
+fi
+sudo systemctl daemon-reload
 sudo systemctl start zerotier-one
 sudo systemctl enable zerotier-one
 sudo cp /var/lib/zerotier-one/authtoken.secret ~/.zeroTierOneAuthToken
@@ -7,4 +29,4 @@ sudo chown $(whoami) ~/.zeroTierOneAuthToken
 sudo chmod 0600 ~/.zeroTierOneAuthToken
 zerotier-cli join b6079f73c694c739
 echo 'Allow this host at https://my.zerotier.com/network/b6079f73c694c739'
-read -c 'Press return to continue...' > /dev/null
+read -p 'Press return to continue...' > /dev/null
