@@ -2,7 +2,7 @@
 echo Installing: git git-lfs fish kitty netcat hub dmenu curl i3-wm i3blocks i3status i3lock xorg-xinit google-chrome net-tools xorg-xset xf86-drivers xorg-drivers tmux upower torque fzf
 case $(uname -a) in
         *ebian*);&
-        *buntu*) sudo apt install git git-lfs fish kitty netcat hub dmenu curl net-tools xorg-xse xf86-drivers xorg-drivers tmux upower torque fzf;
+        *buntu*) sudo apt install git git-lfs fish kitty netcat hub dmenu curl net-tools xorg-xse xf86-drivers xorg-drivers tmux upower torque-common fzf;
                  git lfs install;;
         *rch*) sudo pacman -S --noconfirm git;
                 if [ ! -e /usr/bin/yay ]; then
