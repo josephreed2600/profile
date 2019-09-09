@@ -1,2 +1,6 @@
-#!/bin/fish
-cat (which $argv[1])
+#!/bin/bash
+if [ "$1" == "-e" ] || [ "$1" == "--edit" ]; then
+$EDITOR $(which $2)
+else
+cat $(which $1)
+fi

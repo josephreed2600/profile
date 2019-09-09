@@ -3,7 +3,10 @@
 if [ -z "$2" ]; then
 out=/dev/stdout
 else
-out=$2.$1
+case "$1" in
+	"node")	out=$2.js;;
+	*)	out=$2.$1;;
+esac
 fi
 
 case "$1" in
@@ -38,6 +41,50 @@ EOF
 
 #endif // ${upper}_H
 EOF
+	"js")	echo '#!/usr/bin/node' > $out;;
+	"node")	cat << EOF > $out
+#!/usr/bin/node
+process.env.NODE_ENV = 'debug';
+const package = require('./package.json');
+const u = require('./util');
+
+var Logger = require('logger');
+var logger = Logger.get('main', u.l());
+logger.info(\`Starting \${package.name} v\${package.version}\`);
+
+logger.debug('Loading dependencies...');
+logger.info('Loaded dependencies.');
+
+logger.debug('Reciting the magic numbers...');
+var globals = {
+        add: (name, obj) => {globals[name] = obj; return globals;}
+};
+globals.add('logger', logger);
+logger.info('Recited the magic numbers.');
+
+logger.info('Ready to comply.');
+
+module.exports = globals;
+EOF
+		cat << EOF > util.js;;
+module.exports = {
+        P:      (obj) => Promise.resolve(obj),
+        p:      (obj) => JSON.stringify(obj, null, '\t'),
+        s:      (obj) => {
+                        if(typeof(obj)==='string') return obj;
+                        if(Array.isArray(obj)) return obj.join(' ');
+                        return obj.toString();
+                },
+        a:      (obj) => {
+                        if(Array.isArray(obj)) return obj;
+                        if(typeof(obj)==='string') return obj.split(' ');
+                        return obj.toString();
+                },
+        d:      () => process.env.NODE_ENV === 'debug',
+        l:      (level='debug') => module.exports.d()?level:'info' // if we're debuggo, return input; otherwise, return 'info'
+};
+EOF
+
 esac
 
 if [ ! -z "$2" ]; then # perform actions to prep files
@@ -45,6 +92,10 @@ case $1 in
 	"sh")	;&
 	"bash")	;&
 	"zsh")	;&
-	"fish")	chmod +x $out;;
+	"fish")	;&
+	"js")	chmod +x $out;;
+	"node")	chmod +x $out
+		npm init
+		npm i ~/src/logger
 esac
 fi

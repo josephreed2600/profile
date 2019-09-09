@@ -125,6 +125,7 @@ floating_modifier $mod
 
 # start a terminal
 bindcode $mod+$Return exec $terminal
+bindcode $mod+$semicolon exec $terminal
 # start a file browser
 bindcode $mod+$e exec $filebrowser
 # lock desktop
