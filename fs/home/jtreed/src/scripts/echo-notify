@@ -3,5 +3,5 @@ echo $1
 echo $2
 case $DISPLAY in
 	"" )	;;
-	*  )	notify-send "$1" "$2";;
+	*  )	notify-send "$@";;
 esac
