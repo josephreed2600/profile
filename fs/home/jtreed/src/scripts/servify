@@ -26,95 +26,95 @@ type()   { Type=$1; }
 user()   { User=$1; }
 
 install() {
-echo Installing $Name
-echo
-write | sudo tee $Path/$Name
-echo
-sudo systemctl daemon-reload
-echo Installed $Name
+	echo Installing $Name
+	echo
+	write | sudo tee $Path/$Name
+	echo
+	sudo systemctl daemon-reload
+	echo Installed $Name
 }
 
 start() {
-echo Starting $Name
-sudo systemctl start $Name
-echo Started $Name
+	echo Starting $Name
+	sudo systemctl start $Name
+	echo Started $Name
 }
 
 enable() {
-echo Enabling $Name
-sudo systemctl enable $Name
-echo Enabled $Name
+	echo Enabling $Name
+	sudo systemctl enable $Name
+	echo Enabled $Name
 }
 
 post() {
-case $1 in
-	enable )	start; enable;;
-	start  )	start;;
-	*      )	echo 'Not starting service';;
-esac
+	case $1 in
+		enable )	start; enable;;
+		start  )	start;;
+		*      )	echo 'Not starting service';;
+	esac
 }
 
 parse() {
-while [[ $1 == -* ]]
-do
-case $1 in
-	-d);&
-	--dep)
-		dep "$2"; shift 2;;
-	-D);&
-	--depd)
-		depd "$2"; shift 2;;
-	-w);&
-	--wants)
-		want "$2"; shift 2;;
-	-W);&
-	--wanted)
-		wanted "$2"; shift 2;;
-	-A);&
-	--after)
-		after "$2"; shift 2;;
-	-B);&
-	--before)
-		before "$2"; shift 2;;
-	-t);&
-	--type)
-		type "$2"; shift 2;;
-	-a);&
-	--desc)
-		desc "$2"; shift 2;;
-	-u);&
-	--user)
-		user "$2"; shift 2;;
-	--network)
-		dep network.target; shift 1;;
-	--auto)
-		wanted multi-user.target; shift 1;;
-	-s);&
-	--start)
-		PostTasks=start; shift 1;;
-	-e);&
-	--enable)
-		PostTasks=enable; shift 1;;
-	-h)
-		help; exit 0;;
-	--help)
-		help; help type; exit 0;;
-	*)
-		echo Unrecognized option: $1;
-		exit 1;;
-esac
-done
-if [[ "$1" == *.service ]]
-then Name=$1
-else Name=$1.service
-fi
-shift 1 # everything after that is the command to run
-ExecStart="$@"
+	while [[ $1 == -* ]]
+	do
+		case $1 in
+			-d);&
+			--dep)
+				dep "$2"; shift 2;;
+			-D);&
+			--depd)
+				depd "$2"; shift 2;;
+			-w);&
+			--wants)
+				want "$2"; shift 2;;
+			-W);&
+			--wanted)
+				wanted "$2"; shift 2;;
+			-A);&
+			--after)
+				after "$2"; shift 2;;
+			-B);&
+			--before)
+				before "$2"; shift 2;;
+			-t);&
+			--type)
+				type "$2"; shift 2;;
+			-a);&
+			--desc)
+				desc "$2"; shift 2;;
+			-u);&
+			--user)
+				user "$2"; shift 2;;
+			--network)
+				dep network.target; shift 1;;
+			--auto)
+				wanted multi-user.target; shift 1;;
+			-s);&
+			--start)
+				PostTasks=start; shift 1;;
+			-e);&
+			--enable)
+				PostTasks=enable; shift 1;;
+			-h)
+				help; exit 0;;
+			--help)
+				help; help type; exit 0;;
+			*)
+				echo Unrecognized option: $1;
+				exit 1;;
+		esac
+	done
+	if [[ "$1" == *.service ]]
+	then Name=$1
+	else Name=$1.service
+	fi
+	shift 1 # everything after that is the command to run
+	ExecStart="$@"
 }
 
 help() {
-case "$1" in
-	"") cat << EOF;;
+	case "$1" in
+		"") cat << EOF ;;
 Usage
 =====
 
@@ -154,7 +154,7 @@ Exit Code
 
 EOF
 
-	"type") cat << EOF;;
+		"type") cat << EOF ;;
 Type
 ====
 
@@ -194,7 +194,7 @@ esac
 }
 
 write() {
-cat << EOF | grep -ve '=$'
+	cat << EOF | grep -ve '=$'
 [Unit]
 Description=$Description
 Requires=${deps[@]}
@@ -214,16 +214,16 @@ EOF
 }
 
 fail() {
-case $1 in
-	name)
-		>&2 echo $0: Missing unit name.
-		>&2 help
-		exit 2;;
-	command)
-		>&2 echo $0: Missing command.
-		>&2 help
-		exit 3;;
-esac
+	case $1 in
+		name)
+			>&2 echo $0: Missing unit name.
+			>&2 help
+			exit 2;;
+		command)
+			>&2 echo $0: Missing command.
+			>&2 help
+			exit 3;;
+	esac
 }
 
 parse "$@"
