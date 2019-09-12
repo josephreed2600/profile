@@ -1,0 +1,235 @@
+#!/bin/bash
+Path=/usr/lib/systemd/system
+Description=
+declare -a deps
+declare -a depds
+declare -a wants
+declare -a wanteds
+declare -a afters
+declare -a befores
+
+ExecStart=
+Type=forking
+User=
+
+# for installation/starting/enabling; see post(), --start, and --enable
+PostTasks=
+
+desc()   { Description=$1; }
+dep()    { deps[${#deps[@]}]=$1; after $1; }
+depd()   { depds[${#depds[@]}]=$1; before $1; }
+want()   { wants[${#wants[@]}]=$1; }
+wanted() { wanteds[${#wanteds[@]}]=$1; }
+after()  { afters[${#afters[@]}]=$1; }
+before() { befores[${#befores[@]}]=$1; }
+type()   { Type=$1; }
+user()   { User=$1; }
+
+install() {
+echo Installing $Name
+echo
+write | sudo tee $Path/$Name
+echo
+sudo systemctl daemon-reload
+echo Installed $Name
+}
+
+start() {
+echo Starting $Name
+sudo systemctl start $Name
+echo Started $Name
+}
+
+enable() {
+echo Enabling $Name
+sudo systemctl enable $Name
+echo Enabled $Name
+}
+
+post() {
+case $1 in
+	enable )	start; enable;;
+	start  )	start;;
+	*      )	echo 'Not starting service';;
+esac
+}
+
+parse() {
+while [[ $1 == -* ]]
+do
+case $1 in
+	-d);&
+	--dep)
+		dep "$2"; shift 2;;
+	-D);&
+	--depd)
+		depd "$2"; shift 2;;
+	-w);&
+	--wants)
+		want "$2"; shift 2;;
+	-W);&
+	--wanted)
+		wanted "$2"; shift 2;;
+	-A);&
+	--after)
+		after "$2"; shift 2;;
+	-B);&
+	--before)
+		before "$2"; shift 2;;
+	-t);&
+	--type)
+		type "$2"; shift 2;;
+	-a);&
+	--desc)
+		desc "$2"; shift 2;;
+	-u);&
+	--user)
+		user "$2"; shift 2;;
+	--network)
+		dep network.target; shift 1;;
+	--auto)
+		wanted multi-user.target; shift 1;;
+	-s);&
+	--start)
+		PostTasks=start; shift 1;;
+	-e);&
+	--enable)
+		PostTasks=enable; shift 1;;
+	-h)
+		help; exit 0;;
+	--help)
+		help; help type; exit 0;;
+	*)
+		echo Unrecognized option: $1;
+		exit 1;;
+esac
+done
+if [[ "$1" == *.service ]]
+then Name=$1
+else Name=$1.service
+fi
+shift 1 # everything after that is the command to run
+ExecStart="$@"
+}
+
+help() {
+case "$1" in
+	"") cat << EOF;;
+Usage
+=====
+
+$0 [options] <unit name> <command> [arguments]
+
+Options
+-------
+
+ -a, --desc <string>	Description of this service
+ -d, --dep <unit>   	This service depends on the named unit
+                    		Implies --after
+ -D, --depd <unit>  	The named unit depends on this service
+                    		Implies --before
+ -w, --wants <unit> 	This service optionally depends on the named unit
+ -W, --wanted <unit>	The named unit optionally depends on this service
+ -A, --after <unit> 	This service should be started after the named unit
+ -B, --before <unit>	This service should be started before the named unit
+ -T, --type {simple|forking|oneshot|notify|dbus|idle}
+                    	Start this service in the specified way (see "Type")
+ -u, --user         	User as whom this service ought to run
+     --network      	This service depends on the network
+                    		Alias for --dep network.target
+     --auto         	This service should be started automatically
+                    		Alias for --wanted multi-user.target
+ -s, --start        	Start this service immediately
+ -e, --enable       	Enable this service
+                    		Implies --start
+ -h                 	Print brief help
+     --help         	Print long help
+
+Exit Code
+---------
+ 0	Success
+ 1	Unrecognized option
+ 2	Missing service name
+ 3	Missing command
+
+EOF
+
+	"type") cat << EOF;;
+Type
+====
+
+From https://wiki.archlinux.org/index.php/Systemd#Service_types:
+
+There are several different start-up types to consider when writing a custom
+service file. This is set with the Type= parameter in the [Service] section:
+
+  Type=simple (default): systemd considers the service to be started up
+    immediately. The process must not fork. Do not use this type if other
+    services need to be ordered on this service, unless it is socket activated.
+
+  Type=forking: systemd considers the service started up once the process forks
+    and the parent has exited. For classic daemons use this type unless you
+    know that it is not necessary. You should specify PIDFile= as well so
+    systemd can keep track of the main process.
+
+  Type=oneshot: this is useful for scripts that do a single job and then exit.
+    You may want to set RemainAfterExit=yes as well so that systemd still
+    considers the service as active after the process has exited.
+
+  Type=notify: identical to Type=simple, but with the stipulation that the
+    daemon will send a signal to systemd when it is ready. The reference
+    implementation for this notification is provided by libsystemd-daemon.so.
+
+  Type=dbus: the service is considered ready when the specified BusName
+    appears on DBus's system bus.
+
+  Type=idle: systemd will delay execution of the service binary until all jobs
+    are dispatched. Other than that behavior is very similar to Type=simple.
+
+See the systemd.service(5) man page for a more detailed explanation of the Type
+values.
+
+EOF
+esac
+}
+
+write() {
+cat << EOF | grep -ve '=$'
+[Unit]
+Description=$Description
+Requires=${deps[@]}
+After=${afters[@]}
+Wants=${wants[@]}
+Before=${befores[@]}
+
+[Service]
+ExecStart=$ExecStart
+Type=$Type
+User=$User
+
+[Install]
+RequiredBy=${depds[@]}
+WantedBy=${wanteds[@]}
+EOF
+}
+
+fail() {
+case $1 in
+	name)
+		>&2 echo $0: Missing unit name.
+		>&2 help
+		exit 2;;
+	command)
+		>&2 echo $0: Missing command.
+		>&2 help
+		exit 3;;
+esac
+}
+
+parse "$@"
+if [ -z "$Name" ]
+then fail name
+elif [ -z "$ExecStart" ]
+then fail command
+else install; post $PostTasks
+fi

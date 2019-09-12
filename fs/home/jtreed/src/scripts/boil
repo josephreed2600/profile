@@ -84,6 +84,16 @@ module.exports = {
         l:      (level='debug') => module.exports.d()?level:'info' // if we're debuggo, return input; otherwise, return 'info'
 };
 EOF
+	"tex")	cat << EOF > $out;;
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{xcolor}
+
+\begin{document}
+\end{document}
+EOF
 
 esac
 
