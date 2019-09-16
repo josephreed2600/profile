@@ -1,0 +1,12 @@
+#!/bin/bash
+message="$3"
+from=$(echo "$2" | sed -r 's/(.*) \((#[^,]+), [^)]*\)/\1/')
+channel=$(echo "$2" | sed -r 's/(.*) \((#[^,]+), [^)]*\)/\2/')
+if [[ $message == *"fog#7861"* ]]; then
+urgency=CRITICAL
+echo Critical
+else
+urgency="$5"
+echo Not critical
+fi
+dunstify --urgency="$urgency" --icon="(null)" -a "$channel" "$from" "$message"

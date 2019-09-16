@@ -3,11 +3,11 @@
 
 #LANG=ru_RU.UTF-8
 session=${1:-i3}
-#session=${1:-gnome}
 ~/.fehbgrand &
 lxpolkit &
 dunst &
 discord &
+xcompmgr &
 setxkbmap -option caps:escape
 xmodmap ~/.Xmodmap
 case $session in 
