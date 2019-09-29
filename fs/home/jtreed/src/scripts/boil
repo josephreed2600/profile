@@ -5,6 +5,7 @@ out=/dev/stdout
 else
 case "$1" in
 	"node")	out=$2.js;;
+	"network") out=$2;;
 	*)	out=$2.$1;;
 esac
 fi
@@ -94,6 +95,20 @@ EOF
 \begin{document}
 \end{document}
 EOF
+	"network") cat << EOF > $out;;
+Interface=wlan0
+Connection=wireless
+Security=wpa
+IP=dhcp
+#IP=static
+#IPCustom=('addr add dev wlan0 192.168.1.23/24 brd +' 'route add default via 192.168.1.1')
+#DNS=('192.168.1.1')
+#Gateway='192.168.1.1'
+#Address=('192.168.1.2/24') # is this supposed to match the IPCustom line?
+# are both IPCustom and Address supposed to be enabled at the same time? I feel like no, given the 'addr add' and 'route add default'
+ESSID='${3:-}'
+Key=''
+EOF
 
 esac
 
@@ -106,6 +121,8 @@ case $1 in
 	"js")	chmod +x $out;;
 	"node")	chmod +x $out
 		npm init
-		npm i ~/src/logger
+		npm i ~/src/logger;;
+	"network")
+		sudo mv $2 /etc/netctl;;
 esac
 fi
