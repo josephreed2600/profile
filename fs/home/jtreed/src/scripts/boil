@@ -5,7 +5,11 @@ out=/dev/stdout
 else
 case "$1" in
 	"node")	out=$2.js;;
-	"network") out=$2;;
+	"sh");&
+	"bash");&
+	"zsh");&
+	"fish");&
+	"network") out="$2";;
 	*)	out=$2.$1;;
 esac
 fi

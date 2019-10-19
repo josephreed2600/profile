@@ -1,4 +1,4 @@
-#!/bin/fish
+#!/usr/bin/fish
 if [ -z "$argv[1]" ]
 
 for i in (./checkdiff 2>/dev/null);
