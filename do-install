@@ -1,9 +1,10 @@
 #!/bin/bash
-echo Installing: git git-lfs fish kitty netcat hub dmenu curl i3-wm i3blocks i3status i3lock xorg-xinit google-chrome net-tools xorg-xset xf86-drivers xorg-drivers tmux upower torque fzf
 case $(uname -a) in
         *ebian*);&
-        *buntu*) sudo apt install git git-lfs fish kitty netcat hub dmenu curl net-tools xorg-xse xf86-drivers xorg-drivers tmux upower torque-common fzf;
+        *buntu*) echo Installing: git git-lfs fish kitty netcat hub dmenu curl net-tools xorg-xse xf86-drivers xorg-drivers tmux upower torque-common fzf;
+        	sudo apt install git git-lfs fish kitty netcat hub dmenu curl net-tools xorg-xse xf86-drivers xorg-drivers tmux upower torque-common fzf;
                  git lfs install;;
+	*anjaro*);&
         *rch*) sudo pacman -S --noconfirm git;
                 if [ ! -e /usr/bin/yay ]; then
                 pushd ~/src;
@@ -12,6 +13,7 @@ case $(uname -a) in
                 makepkg -si --noconfirm;
                 popd;
                 popd; fi
-                yay -S --sudoloop --noconfirm --mflags --skipinteg fish kitty netcat hub dmenu curl windows10-icon-theme-git i3-wm i3blocks i3status i3lock xorg-xinit google-chrome net-tools tmux upower xorg-drivers lxterminal torque git-lfs fzf;
+		echo Installing: fish kitty netcat hub dmenu curl windows10-icon-theme-git i3-wm i3blocks i3status i3lock xorg-xinit google-chrome net-tools tmux upower xorg-drivers lxterminal torque git-lfs fzf feh maim netctl wpa_supplicant dunst xclip lxappearance windows8-cursor unzip xcompmgr;
+		yay -S --sudoloop --noconfirm --mflags --skipinteg fish kitty netcat hub dmenu curl windows10-icon-theme-git i3-wm i3blocks i3status i3lock xorg-xinit google-chrome net-tools tmux upower xorg-drivers lxterminal torque git-lfs fzf feh maim netctl wpa_supplicant dunst xclip lxappearance windows8-cursor unzip xcompmgr;
                 git lfs install;;
 esac
