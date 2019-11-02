@@ -1,6 +1,5 @@
 alias en='env LANG=en_US.UTF-8'
 alias ls='ls --color=auto'
-alias git='en hub'
 alias git-log='git log --graph --decorate --pretty=oneline --abbrev-commit master'
 alias git-undo-unstaged='git checkout --'
 alias git-unstage='git reset --hard'
@@ -30,10 +29,6 @@ alias S='pushd'
 alias L='popd'
 alias zt='zerotier-cli'
 
-#export PATH=/usr/local/texlive/2018/bin/x86_64-linux:$PATH
-set -x PATH /usr/local/texlive/2018/bin/x86_64-linux $PATH
-set -x PATH /opt/maple2018/bin $PATH
-set -x PATH ~/src/scripts/emoji $PATH
 set -x PATH ~/src/scripts $PATH
 set -x EDITOR vi
 set -x OPENSCADPATH ~/cad/lib

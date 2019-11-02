@@ -1,4 +1,4 @@
-#!/bin/fish
+#!/usr/bin/fish
 
 for i in (find fs -type f | sed -r 's/^fs//');
 set dname (dirname $i)
