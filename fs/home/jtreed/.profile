@@ -87,10 +87,6 @@ alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
 
-#export PATH=/usr/local/texlive/2018/bin/x86_64-linux:$PATH
-set -x PATH /usr/local/texlive/2018/bin/x86_64-linux $PATH
-set -x PATH /opt/maple2018/bin $PATH
-set -x PATH ~/src/scripts/emoji $PATH
 set -x PATH ~/src/scripts $PATH
 set -x PATH /usr/local/go/bin $PATH
 set -x PATH /opt/brlcad/bin $PATH
