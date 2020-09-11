@@ -1,5 +1,5 @@
 # Garfielf Network
-10.0.10.1	arch.lat.jtreed.gnet.zt
+10.0.10.1	arch.lat.jtreed.gnet.zt lat
 10.0.10.2	 win.lat.jtreed.gnet.zt
 10.0.10.3	      pi.jtreed.gnet.zt pi
 10.0.10.4	arch.usb.jtreed.gnet.zt usb
@@ -23,3 +23,8 @@
 10.0.11.12	          gator.neum.zt
 10.0.11.22	           wish.neum.zt
 10.0.11.82	           gage.neum.zt
+
+# Essex Gang
+10.0.13.2	     pi.jtreed.essex.zt speaker
+10.0.13.12	 lights.runroe.essex.zt lights
+10.0.13.51	   media.maddy.essex.zt media

@@ -9,8 +9,10 @@ declare -a afters
 declare -a befores
 
 ExecStart=
-Type=forking
+Type=simple
 User=
+WorkingDirectory=
+Restart=no
 
 # for installation/starting/enabling; see post(), --start, and --enable
 PostTasks=
@@ -24,6 +26,8 @@ after()  { afters[${#afters[@]}]=$1; }
 before() { befores[${#befores[@]}]=$1; }
 type()   { Type=$1; }
 user()   { User=$1; }
+wd()     { WorkingDirectory=$1; }
+restart(){ Restart=$1; }
 
 install() {
 	echo Installing $Name
@@ -85,6 +89,11 @@ parse() {
 			-u);&
 			--user)
 				user "$2"; shift 2;;
+			--wd)
+				wd "$2"; shift 2;;
+			-r);&
+			--restart)
+				restart "$2"; shift 2;;
 			--network)
 				dep network.target; shift 1;;
 			--auto)
@@ -132,9 +141,12 @@ Options
  -W, --wanted <unit>	The named unit optionally depends on this service
  -A, --after <unit> 	This service should be started after the named unit
  -B, --before <unit>	This service should be started before the named unit
- -T, --type {simple|forking|oneshot|notify|dbus|idle}
+ -t, --type {simple|forking|oneshot|notify|dbus|idle}
                     	Start this service in the specified way (see "Type")
  -u, --user         	User as whom this service ought to run
+     --wd           	Working directory in which to start this service
+ -r, --restart {no|on-success|on-failure|on-abnormal|on-watchdog|on-abort|always}
+			Configure when the service should automatically restart 
      --network      	This service depends on the network
                     		Alias for --dep network.target
      --auto         	This service should be started automatically
@@ -206,6 +218,8 @@ Before=${befores[@]}
 ExecStart=$ExecStart
 Type=$Type
 User=$User
+WorkingDirectory=$WorkingDirectory
+Restart=$Restart
 
 [Install]
 RequiredBy=${depds[@]}

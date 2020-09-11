@@ -1,2 +1,2 @@
 #!/bin/bash
-aria2c -c -x 16 -j 16 -s 16 --on-download-complete=arianna-notify $*
+aria2c -c -x 16 -j 16 -s 16 --seed-time 0 --on-download-complete=arianna-notify $*

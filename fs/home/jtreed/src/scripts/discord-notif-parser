@@ -2,7 +2,7 @@
 message="$3"
 from=$(echo "$2" | sed -r 's/(.*) \((#[^,]+), [^)]*\)/\1/')
 channel=$(echo "$2" | sed -r 's/(.*) \((#[^,]+), [^)]*\)/\2/')
-if [[ $message == *"fog#7861"* ]]; then
+if [[ $message == *"fog"* ]]; then
 urgency=CRITICAL
 echo Critical
 else

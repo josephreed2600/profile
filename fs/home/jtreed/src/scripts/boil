@@ -1,17 +1,25 @@
 #!/bin/bash
 
+function git_init() {
+git init
+git add .
+git commit -m 'Initialize project'
+git checkout -b working
+}
+
 if [ -z "$2" ]; then
-out=/dev/stdout
+	out=/dev/stdout
 else
-case "$1" in
-	"node")	out=$2.js;;
-	"sh");&
-	"bash");&
-	"zsh");&
-	"fish");&
-	"network") out="$2";;
-	*)	out=$2.$1;;
-esac
+	case "$1" in
+		"node")	out=$2.js;;
+		"sh");&
+		"bash");&
+		"zsh");&
+		"fish");&
+		"express");&
+		"network") out="$2";;
+		*)	out="$2.$1";;
+	esac
 fi
 
 case "$1" in
@@ -19,26 +27,31 @@ case "$1" in
 	"bash")	echo '#!/bin/bash' > $out;;
 	"zsh")	echo '#!/usr/bin/zsh' > $out;;
 	"fish")	echo '#!/usr/bin/fish' > $out;;
+	"py")   echo '#!/usr/bin/python' > $out;;
+	"rb")   echo '#!/usr/bin/ruby' > $out;;
 	"html")	cat << EOF > $out;;
 <!doctype html>
 <html lang="en">
 <head>
 	<title></title>
+	<link href="" rel="stylesheet" type="text/css" />
+	<script src=""></script>
+	<meta name="viewport" content="width=device-width" />
 </head>
 <body>
 </body>
 </html>
 EOF
-	"cpp")	cat << EOF > $out;;
+"cpp")	cat << EOF > $out;;
 #include <iostream>
 
 using namespace std;
 
 int main(int argc, char** argv) {
-	
+
 }
 EOF
-	"h")	upper=$(echo $2 | tr a-z A-Z); cat << EOF > $out;;
+"h")	upper=$(echo $2 | tr a-z A-Z); cat << EOF > $out;;
 #ifndef ${upper}_H
 #define ${upper}_H
 
@@ -46,8 +59,19 @@ EOF
 
 #endif // ${upper}_H
 EOF
-	"js")	echo '#!/usr/bin/node' > $out;;
-	"node")	cat << EOF > $out
+"java")	cat << EOF > $out;;
+//package;
+
+//import;
+
+public class ${2} {
+	public ${2}() {
+
+}
+}
+EOF
+"js")	echo '#!/usr/bin/node' > $out;;
+"node")	cat << EOF > $out
 #!/usr/bin/node
 process.env.NODE_ENV = 'debug';
 const package = require('./package.json');
@@ -62,8 +86,8 @@ logger.info('Loaded dependencies.');
 
 logger.debug('Reciting the magic numbers...');
 var globals = {
-        add: (name, obj) => {globals[name] = obj; return globals;}
-};
+				add: (name, obj) => {globals[name] = obj; return globals;}
+			};
 globals.add('logger', logger);
 logger.info('Recited the magic numbers.');
 
@@ -71,25 +95,25 @@ logger.info('Ready to comply.');
 
 module.exports = globals;
 EOF
-		cat << EOF > util.js;;
+cat << EOF > util.js;;
 module.exports = {
-        P:      (obj) => Promise.resolve(obj),
-        p:      (obj) => JSON.stringify(obj, null, '\t'),
-        s:      (obj) => {
-                        if(typeof(obj)==='string') return obj;
-                        if(Array.isArray(obj)) return obj.join(' ');
-                        return obj.toString();
-                },
-        a:      (obj) => {
-                        if(Array.isArray(obj)) return obj;
-                        if(typeof(obj)==='string') return obj.split(' ');
-                        return obj.toString();
-                },
-        d:      () => process.env.NODE_ENV === 'debug',
-        l:      (level='debug') => module.exports.d()?level:'info' // if we're debuggo, return input; otherwise, return 'info'
-};
+				P:      (obj) => Promise.resolve(obj),
+				p:      (obj) => JSON.stringify(obj, null, '\t'),
+				s:      (obj) => {
+												if(typeof(obj)==='string') return obj;
+												if(Array.isArray(obj)) return obj.join(' ');
+												return obj.toString();
+											},
+				a:      (obj) => {
+												if(Array.isArray(obj)) return obj;
+												if(typeof(obj)==='string') return obj.split(' ');
+												return obj.toString();
+											},
+				d:      () => process.env.NODE_ENV === 'debug',
+				l:      (level='debug') => module.exports.d()?level:'info' // if we're debuggo, return input; otherwise, return 'info'
+			};
 EOF
-	"tex")	cat << EOF > $out;;
+"tex")	cat << EOF > $out;;
 \documentclass{article}
 
 \usepackage{amsmath}
@@ -99,7 +123,7 @@ EOF
 \begin{document}
 \end{document}
 EOF
-	"network") cat << EOF > $out;;
+"network") cat << EOF > $out;;
 Interface=wlan0
 Connection=wireless
 Security=wpa
@@ -113,20 +137,33 @@ IP=dhcp
 ESSID='${3:-}'
 Key=''
 EOF
+"express") mkdir $out
+	cd $out
+	cp -r ~/src/express-template/* ~/src/express-template/.gitignore .
 
 esac
 
 if [ ! -z "$2" ]; then # perform actions to prep files
-case $1 in
-	"sh")	;&
-	"bash")	;&
-	"zsh")	;&
-	"fish")	;&
-	"js")	chmod +x $out;;
-	"node")	chmod +x $out
-		npm init
-		npm i ~/src/logger;;
-	"network")
-		sudo mv $2 /etc/netctl;;
-esac
+	case $1 in
+		"sh")	;&
+		"bash")	;&
+		"zsh")	;&
+		"fish")	;&
+		"py")   ;&
+		"rb")   ;&
+		"js")	chmod +x $out;;
+		"node")	chmod +x $out
+			npm init
+			npm i ~/src/logger;;
+		"express")
+			npm install
+			git_init
+			out=package.json
+			;;
+		"network")
+			sudo mv $out /etc/netctl
+			out=/etc/netctl/$out;;
+	esac
 fi
+
+$EDITOR $out

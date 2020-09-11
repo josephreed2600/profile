@@ -5,4 +5,6 @@ pkill Discord
 sleep 1
 pkill Discord
 sleep 1
-discord
+if [[ ! "$1" = "-k" ]]
+then discord
+fi
